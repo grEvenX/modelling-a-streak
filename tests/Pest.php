@@ -31,6 +31,29 @@ expect()->extend('toBeOne', function () {
     return $this->toBe(1);
 });
 
+expect()->extend( 'toContainStreakWeek', function (...$arguments) {
+    if (!key_exists('weekNumber', $arguments)
+        && !key_exists('hit', $arguments)
+        && !key_exists('state', $arguments)) {
+        return false;
+    }
+    /** @var Collection<int, \App\Entities\StreakWeek> $this */
+    $matchingWeek = $this->value->first(function (\App\Entities\StreakWeek $week) use ($arguments) {
+        if (key_exists('week', $arguments) && (string) $week->weekOfYear !== $arguments['week']) {
+            return false;
+        }
+        if (key_exists('hit', $arguments) && $week->hit !== $arguments['hit']) {
+            return false;
+        }
+        if (key_exists('state', $arguments) && $week->state !== $arguments['state']) {
+            return false;
+        }
+        return true;
+    });
+    expect($matchingWeek)->not->toBeNull('Could not find matching week');
+    return $this;
+});
+
 /*
 |--------------------------------------------------------------------------
 | Functions
