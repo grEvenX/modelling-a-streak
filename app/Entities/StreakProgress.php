@@ -6,9 +6,9 @@ class StreakProgress
 {
     public function __construct(
         public readonly int $streakCount,
-        public readonly int $hitRemainingThisWeek,
-        public readonly int $hitRequiredToRepair,
-        public readonly bool $previousWeekFailedToRepair
+        public readonly int $hitMinutesPendingThisWeek,
+        public readonly int $hitMinutesPendingToRepair,
+        public readonly bool $failedToRepairInPreviousWeek
     ) {
 
     }

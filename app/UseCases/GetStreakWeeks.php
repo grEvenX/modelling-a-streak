@@ -1,10 +1,8 @@
 <?php
 
-namespace App\UseCase;
+namespace App\UseCases;
 
-use App\Entities\StreakState;
 use App\Entities\StreakWeek;
-use App\Entities\WeekOfYear;
 use Illuminate\Support\Collection;
 
 /**

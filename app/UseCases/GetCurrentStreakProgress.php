@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UseCase;
+namespace App\UseCases;
 
 use App\Entities\StreakProgress;
 
@@ -12,9 +12,9 @@ class GetCurrentStreakProgress
         // TODO: Needs implementation
         return new StreakProgress(
             streakCount: 0,
-            hitRemainingThisWeek: 0,
-            hitRequiredToRepair: 0,
-            previousWeekFailedToRepair: false
+            hitMinutesPendingThisWeek: 0,
+            hitMinutesPendingToRepair: 0,
+            failedToRepairInPreviousWeek: false
         );
     }
 }

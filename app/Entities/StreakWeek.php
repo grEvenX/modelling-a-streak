@@ -9,7 +9,7 @@ class StreakWeek
         public readonly WeekOfYear $weekOfYear,
         public readonly int $hit,
         public readonly int $hitGoal,
-        public readonly StreakState $state
+        public readonly StreakNodeState $state
     ) {
     }
 }

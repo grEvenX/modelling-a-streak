@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UseCase;
+namespace App\UseCases;
 
 use App\Entities\StreakProgress;
 

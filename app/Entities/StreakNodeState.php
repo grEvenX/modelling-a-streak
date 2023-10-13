@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-enum StreakState: string
+enum StreakNodeState: string
 {
     case fulfilled = 'fulfilled';
     case repaired = 'repaired';
