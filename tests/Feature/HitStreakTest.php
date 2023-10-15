@@ -25,34 +25,38 @@ function seedDatabase(string $userUuid, array $fixtures): void {
     }
 }
 
+function seedDefaultHitStreakData($test): void {
+    $test->userA = Str::uuid()->toString();
+    $test->userB = Str::uuid()->toString();
+
+    // Seed the database with weekly HITs for users
+
+    // User A has two streaks, one with a streak count of 4, and one with 2
+    seedDatabase($test->userA, [
+        // Did nothing in week 1
+        ['week' => '202302', 'hits' => 16], // No streak
+        ['week' => '202303', 'hits' => 40], // Fulfilled
+        ['week' => '202304', 'hits' => 16], // missed goal
+        ['week' => '202305', 'hits' => 32 + 16], // repaired week 4
+        // Did nothing in week 6, no streak
+        ['week' => '202307', 'hits' => 32], // Start of new streak
+        ['week' => '202308', 'hits' => 40], // Fulfilled
+    ]);
+
+    // User A has two streaks, one with a streak count of 3, and one with 2
+    seedDatabase($test->userB, [
+        ['week' => '202252', 'hits' => 32], // Fulfilled
+        ['week' => '202301', 'hits' => 40], // Fulfilled
+        ['week' => '202301', 'hits' => 38], // Fulfilled
+        // Gap of user activity until week 5
+        ['week' => '202305', 'hits' => 32], // Fulfilled
+        ['week' => '202306', 'hits' => 32], // Fulfilled
+    ]);
+}
+
 describe('GetStreakWeeks', function () {
     beforeEach(function () {
-        $this->userA = Str::uuid()->toString();
-        $this->userB = Str::uuid()->toString();
-
-        // Seed the database with weekly HITs for users
-
-        // User A has two streaks, one with a streak count of 4, and one with 2
-        seedDatabase($this->userA, [
-            // Did nothing in week 1
-            ['week' => '202302', 'hits' => 16], // No streak
-            ['week' => '202303', 'hits' => 40], // Fulfilled
-            ['week' => '202304', 'hits' => 16], // missed goal
-            ['week' => '202305', 'hits' => 32 + 16], // repaired week 4
-            // Did nothing in week 6, no streak
-            ['week' => '202307', 'hits' => 32], // Start of new streak
-            ['week' => '202308', 'hits' => 40], // Fulfilled
-        ]);
-
-        // User A has two streaks, one with a streak count of 3, and one with 2
-        seedDatabase($this->userB, [
-            ['week' => '202252', 'hits' => 32], // Fulfilled
-            ['week' => '202301', 'hits' => 40], // Fulfilled
-            ['week' => '202301', 'hits' => 38], // Fulfilled
-            // Gap of user activity until week 5
-            ['week' => '202305', 'hits' => 32], // Fulfilled
-            ['week' => '202306', 'hits' => 32], // Fulfilled
-        ]);
+        seedDefaultHitStreakData($this);
     });
 
     test('returns the correct streak weeks for each user', function () {
@@ -286,6 +290,9 @@ describe('GetCurrentStreakProgress', function () {
 });
 
 describe('GetUserMaxStreakCount', function () {
+    beforeEach(function () {
+        seedDefaultHitStreakData($this);
+    });
     test('returns the max streak count for each user', function () {
         $sut = new GetUserMaxStreakCount();
 
