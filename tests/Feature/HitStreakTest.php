@@ -269,7 +269,7 @@ describe('GetCurrentStreakProgress', function () {
         $userUuid = Str::uuid()->toString();
         seedDatabase($userUuid, [
             ['week' => (string) $twoWeeksAgo, 'hits' => 32], // Fulfilled
-            ['week' => (string) $previousWeek, 'hits' => 20], // Broken (repairable)
+            ['week' => (string) $previousWeek, 'hits' => 22], // Broken (repairable, missing 10 HIT)
             ['week' => (string) $thisWeek, 'hits' => 32 + 10], // Fulfilled + repairing 10 missing from last week
         ]);
 
